@@ -18,7 +18,7 @@ class AppTheme {
       color: WidgetStatePropertyAll(
         AppPallete.backgroundColor,
       ),
-      side: BorderSide.none,
+      shadowColor: AppPallete.transparentColor,
     ),
     inputDecorationTheme: InputDecorationTheme(
       contentPadding: const EdgeInsets.all(27),
