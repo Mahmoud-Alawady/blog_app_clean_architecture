@@ -4,6 +4,7 @@ class Blog {
   final String content;
   final DateTime createdAt;
   final String authorId;
+  final String? authorName;
   final String imageUrl;
   final List<String> topics;
 
@@ -13,6 +14,7 @@ class Blog {
     required this.content,
     required this.createdAt,
     required this.authorId,
+    required this.authorName,
     required this.imageUrl,
     required this.topics,
   });

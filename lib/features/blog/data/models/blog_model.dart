@@ -7,6 +7,7 @@ class BlogModel extends Blog {
     required super.content,
     required super.createdAt,
     required super.authorId,
+    super.authorName,
     required super.imageUrl,
     required super.topics,
   });
@@ -29,9 +30,10 @@ class BlogModel extends Blog {
       title: json['title'],
       content: json['content'],
       authorId: json['author_id'],
+      authorName: json['profiles']?['name'],
       imageUrl: json['image_url'],
       topics: List.from(json['topics'] ?? []),
-      createdAt: DateTime.parse(json['created_at']),
+      createdAt: DateTime.tryParse(json['created_at']) ?? DateTime.now(),
     );
   }
 }

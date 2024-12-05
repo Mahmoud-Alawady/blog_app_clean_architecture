@@ -59,9 +59,9 @@ class _SignupPageState extends State<SignupPage> {
                 BlocConsumer<AuthBloc, AuthState>(
                   listener: (context, state) {
                     if (state is AuthSuccess) {
-                      // Navigator.of(context).pushReplacement(LoginPage.route());
-                      // showSnackBar(context,
-                      //     'Accounted created successfuly! please login');
+                      Navigator.of(context).pushReplacement(LoginPage.route());
+                      showSnackBar(context,
+                          'Accounted created successfuly! please login');
                     } else if (state is AuthFailure) {
                       showSnackBar(context, state.message);
                     }

@@ -42,7 +42,7 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
         actions: [
           BlocConsumer<BlogBloc, BlogState>(
             listener: (context, state) {
-              if (state is BlogSuccess) {
+              if (state is BlogUploadSuccess) {
                 Navigator.pushAndRemoveUntil(
                     context, BlogPage.route(), (route) => false);
 
@@ -54,7 +54,7 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
             builder: (context, state) {
               if (state is BlogLoading) {
                 return const Padding(
-                  padding: EdgeInsets.only(right: 8.0),
+                  padding: EdgeInsets.only(right: 20),
                   child: SizedBox(
                     width: 22,
                     height: 22,
@@ -63,6 +63,8 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
                 );
               }
               return IconButton(
+                  iconSize: 26,
+                  padding: const EdgeInsets.only(right: 10),
                   onPressed: () {
                     if (formKey.currentState!.validate() &&
                         selectedImage != null) {
@@ -93,6 +95,7 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
             key: formKey,
             child: Column(
               children: [
+                const SizedBox(height: 8),
                 _buildImageSelector(),
                 const SizedBox(height: 20),
                 _buildTopicsSelector(),
