@@ -12,12 +12,13 @@ class BlogModel extends Blog {
     required super.topics,
   });
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson({bool includeAuthorName = false}) {
     return <String, dynamic>{
       'id': id,
       'title': title,
       'content': content,
       'author_id': authorId,
+      if (includeAuthorName) 'profiles': {'name': authorName},
       'image_url': imageUrl,
       'topics': topics,
       'created_at': createdAt.toIso8601String(),

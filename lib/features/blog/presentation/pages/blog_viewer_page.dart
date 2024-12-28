@@ -2,6 +2,7 @@ import 'package:blog_app/core/theme/app_pallete.dart';
 import 'package:blog_app/core/utils/calc_reading_time.dart';
 import 'package:blog_app/core/utils/format_date.dart';
 import 'package:blog_app/features/blog/domain/entities/blog.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class BlogViewerPage extends StatelessWidget {
@@ -45,9 +46,10 @@ class BlogViewerPage extends StatelessWidget {
                 const SizedBox(height: 20),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(10),
-                  child: Image.network(
-                    blog.imageUrl,
-                    errorBuilder: (context, error, stackTrace) =>
+                  child: CachedNetworkImage(
+                    imageUrl: blog.imageUrl,
+                    cacheKey: blog.imageUrl,
+                    errorWidget: (context, error, stackTrace) =>
                         const SizedBox(),
                   ),
                 ),

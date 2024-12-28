@@ -21,7 +21,7 @@ class BlogLocalDataSourceImpl implements BlogLocalDataSource {
   @override
   void writeBlogs(List<BlogModel> blogs) {
     box.clear();
-    box.addAll(blogs.map((e) => e.toJson()));
+    box.addAll(blogs.map((e) => e.toJson(includeAuthorName: true)));
     debugPrint('blogs written: ${blogs.length}');
   }
 }
