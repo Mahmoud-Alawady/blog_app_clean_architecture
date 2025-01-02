@@ -14,7 +14,8 @@ import 'package:blog_app/features/blog/data/repositories/blog_repository_impl.da
 import 'package:blog_app/features/blog/domain/repositories/blog_repository.dart';
 import 'package:blog_app/features/blog/domain/usecases/get_all_blogs.dart';
 import 'package:blog_app/features/blog/domain/usecases/upload_blog.dart';
-import 'package:blog_app/features/blog/presentation/bloc/blog_bloc.dart';
+import 'package:blog_app/features/blog/presentation/blocs/blog_fetch_bloc/blog_fetch_bloc.dart';
+import 'package:blog_app/features/blog/presentation/blocs/blog_upload_cubit/blog_upload_cubit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
@@ -89,15 +90,16 @@ _initBlog() {
   );
 
   serviceLocator.registerFactory(
-    () => UploadBlog(serviceLocator()),
-  );
-
-  serviceLocator.registerFactory(
     () => GetAllBlogs(serviceLocator()),
   );
 
-  serviceLocator.registerLazySingleton(() => BlogBloc(
-        getAllBlogs: serviceLocator(),
-        uploadBlog: serviceLocator(),
-      ));
+  serviceLocator.registerFactory(
+    () => UploadBlog(serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton(
+      () => BlogFetchBloc(getAllBlogs: serviceLocator()));
+
+  serviceLocator.registerLazySingleton(
+      () => BlogUploadCubit(uploadBlog: serviceLocator()));
 }

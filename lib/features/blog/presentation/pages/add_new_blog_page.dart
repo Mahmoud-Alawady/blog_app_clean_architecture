@@ -4,7 +4,7 @@ import 'package:blog_app/core/common/widgets/loader.dart';
 import 'package:blog_app/core/theme/app_pallete.dart';
 import 'package:blog_app/core/utils/pick_image.dart';
 import 'package:blog_app/core/utils/show_snackbar.dart';
-import 'package:blog_app/features/blog/presentation/bloc/blog_bloc.dart';
+import 'package:blog_app/features/blog/presentation/blocs/blog_upload_cubit/blog_upload_cubit.dart';
 import 'package:blog_app/features/blog/presentation/pages/blog_page.dart';
 import 'package:blog_app/features/blog/presentation/widgets/blog_editor.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -40,19 +40,19 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          BlocConsumer<BlogBloc, BlogState>(
-            listener: (context, state) {
+          BlocConsumer<BlogUploadCubit, BlogUploadState>(
+            listener: (_, state) {
               if (state is BlogUploadSuccess) {
                 Navigator.pushAndRemoveUntil(
                     context, BlogPage.route(), (route) => false);
 
                 showSnackBar(context, 'blog uploaded successfully!');
-              } else if (state is BlogFailure) {
+              } else if (state is BlogUploadFailure) {
                 showSnackBar(context, state.error);
               }
             },
-            builder: (context, state) {
-              if (state is BlogLoading) {
+            builder: (_, state) {
+              if (state is BlogUploadLoading) {
                 return const Padding(
                   padding: EdgeInsets.only(right: 20),
                   child: SizedBox(
@@ -66,20 +66,17 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
                   iconSize: 26,
                   padding: const EdgeInsets.only(right: 10),
                   onPressed: () {
-                    if (formKey.currentState!.validate() &&
-                        selectedImage != null) {
+                    if (formKey.currentState!.validate()) {
                       final authorId = (context.read<AppUserCubit>().state
                               as AppUserLoggedIn)
                           .user
                           .id;
-                      context.read<BlogBloc>().add(
-                            BlogEventUpload(
-                              image: selectedImage!,
-                              title: titleController.text.trim(),
-                              content: contentController.text.trim(),
-                              authorId: authorId,
-                              topics: selectedTopics,
-                            ),
+                      context.read<BlogUploadCubit>().uploadBlog(
+                            image: selectedImage,
+                            title: titleController.text.trim(),
+                            content: contentController.text.trim(),
+                            authorId: authorId,
+                            topics: selectedTopics,
                           );
                     }
                   },

@@ -24,7 +24,7 @@ class UploadBlog implements Usecase<Blog, UploadBlogParams> {
 }
 
 class UploadBlogParams {
-  final File image;
+  final File? image;
   final String title;
   final String content;
   final String authorId;

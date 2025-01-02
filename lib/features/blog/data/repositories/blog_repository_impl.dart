@@ -22,7 +22,7 @@ class BlogRepositoryImpl implements BlogRepository {
 
   @override
   Future<Either<Failure, Blog>> uploadBlog({
-    required File image,
+    required File? image,
     required String title,
     required String content,
     required String authorId,
@@ -33,8 +33,11 @@ class BlogRepositoryImpl implements BlogRepository {
         return Left(Failure('No internet connection!'));
       }
       final id = const Uuid().v4();
-      final imageUrl =
-          await blogRemoteDataSource.uploadBlogImage(image: image, id: id);
+      String imageUrl = '';
+      if (image != null) {
+        imageUrl =
+            await blogRemoteDataSource.uploadBlogImage(image: image, id: id);
+      }
       final blog = BlogModel(
         id: id,
         title: title,
